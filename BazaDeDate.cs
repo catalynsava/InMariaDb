@@ -22,7 +22,7 @@ public static class BazaDeDate
         using (OleDbConnection cnn = new OleDbConnection(csb.ConnectionString))
         {
             cnn.Open();
-            string slq = "SELECT * FROM adrrol WHERE adrrol.tip = 3 OR adrrol.tip=4;";
+            string slq = "SELECT * FROM adrrol;";
             using (OleDbCommand cmd = new OleDbCommand(slq, cnn))
             {
                 using (OleDbDataReader dr = cmd.ExecuteReader())
@@ -182,6 +182,11 @@ public static class BazaDeDate
 
         string? input;
         string? numar;
+
+        int latimePj;
+        string formaOrgPj="";
+        string numePj;
+        int codFormaOrganizare;
 
         UAT = "BORCA";
 
@@ -528,24 +533,125 @@ public static class BazaDeDate
                     sqlPj += ", `id_adrese`";
                     sqlPj += ") VALUES (";
                     sqlPj += "'" + idPersoana + "'";
-                    Console.WriteLine(dr.GetString(dr.GetOrdinal("nume")));
-                    if (dr.GetString(dr.GetOrdinal("nume")).Substring(0,2) == "SC")
+
+                    latimePj = dr.GetString(dr.GetOrdinal("nume")).Length;
+                    if (dr.GetString(dr.GetOrdinal("nume")).Substring(latimePj-2,2) == "SA")
                     {
-                        Console.WriteLine("SC");
+                        formaOrgPj = "SA";
+                        codFormaOrganizare = 1;
+                        if (dr.GetString(dr.GetOrdinal("nume")).Substring(0,2).ToUpper() == "SC")
+                        {
+                             numePj = dr.GetString(dr.GetOrdinal("nume")).Substring(2, latimePj-4).Trim();
+                        }
+                        else
+                        {
+                            numePj = dr.GetString(dr.GetOrdinal("nume")).Substring(0, latimePj-2).Trim(); 
+                        }
+                    }else if (dr.GetString(dr.GetOrdinal("nume")).Substring(latimePj-3,3) == "SRL")
+                    {
+                        formaOrgPj = "SRL";
+                        codFormaOrganizare = 2;
+                        if (dr.GetString(dr.GetOrdinal("nume")).Substring(0,2).ToUpper() == "SC")
+                        {
+                             numePj = dr.GetString(dr.GetOrdinal("nume")).Substring(2, latimePj-5).Trim();
+                        }
+                        else
+                        {
+                            numePj = dr.GetString(dr.GetOrdinal("nume")).Substring(0, latimePj-3).Trim(); 
+                        }
+                    }else if (dr.GetString(dr.GetOrdinal("nume")).Substring(latimePj-3,3) == "SNC")
+                    {
+                        formaOrgPj = "SNC";
+                        codFormaOrganizare = 3;
+                        if (dr.GetString(dr.GetOrdinal("nume")).Substring(0,2).ToUpper() == "SC")
+                        {
+                             numePj = dr.GetString(dr.GetOrdinal("nume")).Substring(2, latimePj-5).Trim();
+                        }
+                        else
+                        {
+                            numePj = dr.GetString(dr.GetOrdinal("nume")).Substring(0, latimePj-3).Trim(); 
+                        }
+                    }else  if (dr.GetString(dr.GetOrdinal("nume")).Substring(latimePj-3,3) == "SCA")
+                    {
+                        formaOrgPj = "SCA";
+                        codFormaOrganizare = 4;
+                        if (dr.GetString(dr.GetOrdinal("nume")).Substring(0,2).ToUpper() == "SC")
+                        {
+                             numePj = dr.GetString(dr.GetOrdinal("nume")).Substring(2, latimePj-5).Trim();
+                        }
+                        else
+                        {
+                            numePj = dr.GetString(dr.GetOrdinal("nume")).Substring(0, latimePj-3).Trim(); 
+                        }
+                    }else if (dr.GetString(dr.GetOrdinal("nume")).Substring(latimePj-3,3) == "SCS")
+                    {
+                        formaOrgPj = "SCS";
+                        codFormaOrganizare = 5;
+                        if (dr.GetString(dr.GetOrdinal("nume")).Substring(0,2).ToUpper() == "SC")
+                        {
+                             numePj = dr.GetString(dr.GetOrdinal("nume")).Substring(2, latimePj-5).Trim();
+                        }
+                        else
+                        {
+                            numePj = dr.GetString(dr.GetOrdinal("nume")).Substring(0, latimePj-3).Trim(); 
+                        }
+                    }else if (dr.GetString(dr.GetOrdinal("nume")).Substring(latimePj-2,2) == "IF")
+                    {
+                        formaOrgPj = "IF";
+                        codFormaOrganizare = 6;
+                        if (dr.GetString(dr.GetOrdinal("nume")).Substring(0,2).ToUpper() == "SC")
+                        {
+                             numePj = dr.GetString(dr.GetOrdinal("nume")).Substring(2, latimePj-4).Trim();
+                        }
+                        else
+                        {
+                            numePj = dr.GetString(dr.GetOrdinal("nume")).Substring(0, latimePj-2).Trim(); 
+                        }
+                    }else if (dr.GetString(dr.GetOrdinal("nume")).Substring(latimePj-2,2) == "II")
+                    {
+                        formaOrgPj = "II";
+                        codFormaOrganizare = 7;
+                        if (dr.GetString(dr.GetOrdinal("nume")).Substring(0,2).ToUpper() == "SC")
+                        {
+                             numePj = dr.GetString(dr.GetOrdinal("nume")).Substring(2, latimePj-4).Trim();
+                        }
+                        else
+                        {
+                            numePj = dr.GetString(dr.GetOrdinal("nume")).Substring(0, latimePj-2).Trim(); 
+                        }
+                    }else if (dr.GetString(dr.GetOrdinal("nume")).Substring(latimePj-3,3) == "PFA")
+                    {
+                        formaOrgPj = "PFA";
+                        codFormaOrganizare = 8;
+                        if (dr.GetString(dr.GetOrdinal("nume")).Substring(0,2).ToUpper() == "SC")
+                        {
+                             numePj = dr.GetString(dr.GetOrdinal("nume")).Substring(2, latimePj-5).Trim();
+                        }
+                        else
+                        {
+                            numePj = dr.GetString(dr.GetOrdinal("nume")).Substring(0, latimePj-3).Trim(); 
+                        }
                     }
-                    sqlPj += ", 2";
-                    sqlPj += ", 'PIPA'";
-                    sqlPj += ", 'Borca'";
-                    sqlPj += ", '19010927'";
-                    sqlPj += ", '19010927'";
-                    sqlPj += ", 'RC: 45435435'";
-                    sqlPj += ", 'Tudor'";
-                    sqlPj += ", 'V'";
-                    sqlPj += ", 'Valetin'";
-                    sqlPj += ", 'Director'";
-                    sqlPj += ", '9999999999'";
-                    sqlPj += ", 'pipa_pita@yahoo.com'";
-                    sqlPj += ", 'f02e9699-a11c-4d9f-dfc9-7c1e1efff2ef'";
+                    else
+                    {
+                        formaOrgPj = "";
+                        codFormaOrganizare = 9;
+                        numePj = dr.GetString(dr.GetOrdinal("nume")).Trim(); 
+                    }
+
+                    sqlPj += ", " + codFormaOrganizare + "";
+                    sqlPj += ", '" + numePj + "'";
+                    sqlPj += ", ''";
+                    sqlPj += ", '" + dr.GetString(dr.GetOrdinal("cnp")) + "'";
+                    sqlPj += ", '" + dr.GetString(dr.GetOrdinal("nrUi")) +  "'";
+                    sqlPj += ", ''";
+                    sqlPj += ", ''";
+                    sqlPj += ", ''";
+                    sqlPj += ", ''";
+                    sqlPj += ", ''";
+                    sqlPj += ", ''";
+                    sqlPj += ", ''";
+                    sqlPj += ", '" + idAdresaPj + "'";
                     sqlPj += ");";
 
                     Console.WriteLine(sqlPj);
