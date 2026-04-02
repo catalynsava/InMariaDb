@@ -29,3 +29,4 @@ D:\proiecte\InMariaDb\obj\Debug\net9.0-windows\refint\InMariaDb.dll
 D:\proiecte\InMariaDb\obj\Debug\net9.0-windows\InMariaDb.pdb
 D:\proiecte\InMariaDb\obj\Debug\net9.0-windows\InMariaDb.genruntimeconfig.cache
 D:\proiecte\InMariaDb\obj\Debug\net9.0-windows\ref\InMariaDb.dll
+d:\proiecte\InMariaDb\obj\Debug\net9.0-windows\InMariaDb.sourcelink.json

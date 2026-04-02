@@ -7,6 +7,13 @@ namespace InMariaDb;
 
 public static class BazaDeDate
 {
+    internal static void scrieSqlFile(string linie)
+    {
+        using (StreamWriter writer = new StreamWriter(AppContext.BaseDirectory + "\\script.sql", true))
+        {
+            writer.WriteLine(linie);
+        }
+    }
     internal static void conectareAccesDb(Action<OleDbDataReader> actiune)
     {
         OleDbConnectionStringBuilder csb = new OleDbConnectionStringBuilder();
@@ -15,7 +22,7 @@ public static class BazaDeDate
         using (OleDbConnection cnn = new OleDbConnection(csb.ConnectionString))
         {
             cnn.Open();
-            string slq = "SELECT * FROM adrrol;";
+            string slq = "SELECT * FROM adrrol WHERE adrrol.tip = 3 OR adrrol.tip=4;";
             using (OleDbCommand cmd = new OleDbCommand(slq, cnn))
             {
                 using (OleDbDataReader dr = cmd.ExecuteReader())
@@ -162,6 +169,7 @@ public static class BazaDeDate
         string? sqlAdrPf = "";
         string? sqlAdrPj = "";
         string? sqlPf;
+        string? sqlPj;
         bool isPf = false;
 
         string? idAdresaGos;
@@ -176,6 +184,12 @@ public static class BazaDeDate
         string? numar;
 
         UAT = "BORCA";
+
+        if (File.Exists(AppContext.BaseDirectory + "\\script.sql"))
+        {
+            File.Delete(AppContext.BaseDirectory + "\\script.sql");
+        }
+
         BazaDeDate.conectareAccesDb(async dr =>
         {
             while (dr.Read())
@@ -250,7 +264,7 @@ public static class BazaDeDate
                     sqlRol += ", " + "1" + "";
                 }
                 sqlRol += ", " + "NULL" + "";
-                sqlRol += ");\r\n";
+                sqlRol += ");";
 
                 sqlAdrGos = "INSERT INTO `adrese`";
                 sqlAdrGos += "(";
@@ -426,35 +440,39 @@ public static class BazaDeDate
                     ) + "'";
                 }
                 
-                sqlAdrGos += ");\r\n";
+                sqlAdrGos += ");";
                 if (isPf)
                 {
-                    sqlAdrPf += ");\r\n";
+                    sqlAdrPf += ");";
                 }
                 else
                 {
-                    sqlAdrPj += ");\r\n";
+                    sqlAdrPj += ");";
                 }
 
                 Console.WriteLine(sqlRol);
-                result = BazaDeDate.ExecutaNonQuery(sqlRol);
-                sqlRol = string.Empty;
+                scrieSqlFile(sqlRol);
+                //result = BazaDeDate.ExecutaNonQuery(sqlRol);
+                //sqlRol = string.Empty;
 
                 Console.WriteLine(sqlAdrGos);
-                result = BazaDeDate.ExecutaNonQuery(sqlAdrGos);
-                sqlAdrGos = string.Empty;
+                scrieSqlFile(sqlAdrGos);
+                //result = BazaDeDate.ExecutaNonQuery(sqlAdrGos);
+                //sqlAdrGos = string.Empty;
 
                 if (isPf)
                 {
                     Console.WriteLine(sqlAdrPf);
-                    result = BazaDeDate.ExecutaNonQuery(sqlAdrPf);
-                    sqlAdrPf = string.Empty;
+                    scrieSqlFile(sqlAdrPf);
+                    //result = BazaDeDate.ExecutaNonQuery(sqlAdrPf);
+                    //sqlAdrPf = string.Empty;
                 }
                 else
                 {
                     Console.WriteLine(sqlAdrPj);
-                    result = BazaDeDate.ExecutaNonQuery(sqlAdrPj);
-                    sqlAdrPf = string.Empty;
+                    scrieSqlFile(sqlAdrPj);
+                    //result = BazaDeDate.ExecutaNonQuery(sqlAdrPj);
+                    //sqlAdrPf = string.Empty;
                 }
 
                 if (isPf)
@@ -487,8 +505,51 @@ public static class BazaDeDate
                     sqlPf += ");";
 
                     Console.WriteLine(sqlPf);
-                    result = BazaDeDate.ExecutaNonQuery(sqlPf);
-                    sqlPf = string.Empty;
+                    scrieSqlFile(sqlPf);
+                    //result = BazaDeDate.ExecutaNonQuery(sqlPf);
+                    //sqlPf = string.Empty;
+                }
+                else
+                {
+                    sqlPj = "INSERT INTO `persoane_juridice` ";
+                    sqlPj += "(`id`";
+                    sqlPj += ", `cod_forma_organizare`";
+                    sqlPj += ", `denumire`";
+                    sqlPj += ", `filiala`";
+                    sqlPj += ", `cif`";
+                    sqlPj += ", `cui`";
+                    sqlPj += ", `registrul_comertului`";
+                    sqlPj += ", `nume_reprezentant`";
+                    sqlPj += ", `intiala_reprezenant`";
+                    sqlPj += ", `prenume_reprezentant`";
+                    sqlPj += ", `functia`";
+                    sqlPj += ", `telefon`";
+                    sqlPj += ", `email`";
+                    sqlPj += ", `id_adrese`";
+                    sqlPj += ") VALUES (";
+                    sqlPj += "'" + idPersoana + "'";
+                    Console.WriteLine(dr.GetString(dr.GetOrdinal("nume")));
+                    if (dr.GetString(dr.GetOrdinal("nume")).Substring(0,2) == "SC")
+                    {
+                        Console.WriteLine("SC");
+                    }
+                    sqlPj += ", 2";
+                    sqlPj += ", 'PIPA'";
+                    sqlPj += ", 'Borca'";
+                    sqlPj += ", '19010927'";
+                    sqlPj += ", '19010927'";
+                    sqlPj += ", 'RC: 45435435'";
+                    sqlPj += ", 'Tudor'";
+                    sqlPj += ", 'V'";
+                    sqlPj += ", 'Valetin'";
+                    sqlPj += ", 'Director'";
+                    sqlPj += ", '9999999999'";
+                    sqlPj += ", 'pipa_pita@yahoo.com'";
+                    sqlPj += ", 'f02e9699-a11c-4d9f-dfc9-7c1e1efff2ef'";
+                    sqlPj += ");";
+
+                    Console.WriteLine(sqlPj);
+                    scrieSqlFile(sqlPj);
                 }
             }
             Console.WriteLine("am terminat");
