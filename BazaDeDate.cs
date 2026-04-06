@@ -168,11 +168,13 @@ public static class BazaDeDate
         string? sqlAdrGos;
         string? sqlAdrPf = "";
         string? sqlAdrPj = "";
+        string? sqlPer = "";
         string? sqlPf;
         string? sqlPj;
         bool isPf = false;
 
         string? idAdresaGos;
+        string? idPersoane;
         string? idAdresaPf = "";
         string? idAdresaPj = "";
         string? idPersoana;
@@ -222,13 +224,13 @@ public static class BazaDeDate
                 {
                      idAdresaPj = Guid.NewGuid().ToString();
                 }
+                idPersoane = Guid.NewGuid().ToString();
                 idPersoana = Guid.NewGuid().ToString();
                
                 sqlRol = "INSERT INTO `adrese_roluri`";
                 sqlRol += "(";
                 sqlRol += " `id`";
                 sqlRol += ", `cod_cfg_localitati`";
-                sqlRol += ", `tip`";
                 sqlRol += ", `volum`";
                 sqlRol += ", `pozitie`";
                 sqlRol += ", `id_adresa_rol`";
@@ -247,7 +249,6 @@ public static class BazaDeDate
                         dr.IsDBNull(dr.GetOrdinal("localitate")) ? "NECUNOSCUT" : dr.GetString(dr.GetOrdinal("localitate"))
                     ) + "";
 
-                sqlRol += ", " + dr["tip"] + "";
                 sqlRol += ", " + dr["vol"] + "";
                 sqlRol += ", " + dr["poz"] + "";
                 sqlRol += ", '" + idAdresaGos + "'";
@@ -255,7 +256,7 @@ public static class BazaDeDate
                 sqlRol += ", " + BazaDeDate.getCodExploatatie(
                      dr.IsDBNull(dr.GetOrdinal("tipexploa")) ? "NECUNOSCUT" : dr.GetString(dr.GetOrdinal("tipexploa"))
                 ) + "";
-                sqlRol += ", '" + idPersoana + "'";
+                sqlRol += ", '" + idPersoane + "'";
                 sqlRol += ", '" + dr["rolIMP"] + "'";
                 sqlRol += ", '" + "0000-00-00" + "'";
                 sqlRol += ", '" + dr["nrinreg"] + "'";
@@ -458,27 +459,43 @@ public static class BazaDeDate
                 Console.WriteLine(sqlRol);
                 scrieSqlFile(sqlRol);
                 //result = BazaDeDate.ExecutaNonQuery(sqlRol);
-                //sqlRol = string.Empty;
+                sqlRol = string.Empty;
 
                 Console.WriteLine(sqlAdrGos);
                 scrieSqlFile(sqlAdrGos);
                 //result = BazaDeDate.ExecutaNonQuery(sqlAdrGos);
-                //sqlAdrGos = string.Empty;
+                sqlAdrGos = string.Empty;
+
+                
 
                 if (isPf)
                 {
                     Console.WriteLine(sqlAdrPf);
                     scrieSqlFile(sqlAdrPf);
                     //result = BazaDeDate.ExecutaNonQuery(sqlAdrPf);
-                    //sqlAdrPf = string.Empty;
+                    sqlAdrPf = string.Empty;
                 }
                 else
                 {
                     Console.WriteLine(sqlAdrPj);
                     scrieSqlFile(sqlAdrPj);
                     //result = BazaDeDate.ExecutaNonQuery(sqlAdrPj);
-                    //sqlAdrPf = string.Empty;
+                    sqlAdrPf = string.Empty;
                 }
+
+                sqlPer += "INSERT INTO `persoane` (";
+                sqlPer += "	`id`";
+                sqlPer += "	, `tip`";
+                sqlPer += "	, `id_persoana`";
+                sqlPer += ") VALUES (";
+                sqlPer += "	'" + idPersoane + "'";
+                sqlPer += "	, " + dr.GetInt32(dr.GetOrdinal("tip")) + "";
+                sqlPer += "	, '" + idPersoana + "'";
+                sqlPer += ");";
+                Console.WriteLine(sqlPer);
+                scrieSqlFile(sqlPer);
+                //result = BazaDeDate.ExecutaNonQuery(sqlPer);
+                sqlPer = string.Empty;
 
                 if (isPf)
                 {
@@ -512,7 +529,7 @@ public static class BazaDeDate
                     Console.WriteLine(sqlPf);
                     scrieSqlFile(sqlPf);
                     //result = BazaDeDate.ExecutaNonQuery(sqlPf);
-                    //sqlPf = string.Empty;
+                    sqlPf = string.Empty;
                 }
                 else
                 {
@@ -656,6 +673,8 @@ public static class BazaDeDate
 
                     Console.WriteLine(sqlPj);
                     scrieSqlFile(sqlPj);
+                    //result = BazaDeDate.ExecutaNonQuery(sqlPj);
+                    sqlPj = string.Empty;
                 }
             }
             Console.WriteLine("am terminat");
