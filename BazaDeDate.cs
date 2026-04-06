@@ -1,4 +1,5 @@
 ﻿using System.Data.OleDb;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -169,8 +170,8 @@ public static class BazaDeDate
         string? sqlAdrPf = "";
         string? sqlAdrPj = "";
         string? sqlPer = "";
-        string? sqlPf;
-        string? sqlPj;
+        string? sqlPf = "";
+        string? sqlPj = "";
         bool isPf = false;
 
         string? idAdresaGos;
@@ -456,31 +457,31 @@ public static class BazaDeDate
                     sqlAdrPj += ");";
                 }
 
-                Console.WriteLine(sqlRol);
-                scrieSqlFile(sqlRol);
+                //Console.WriteLine(sqlRol);
+                //scrieSqlFile(sqlRol);
                 //result = BazaDeDate.ExecutaNonQuery(sqlRol);
-                sqlRol = string.Empty;
+                //sqlRol = string.Empty;
 
-                Console.WriteLine(sqlAdrGos);
-                scrieSqlFile(sqlAdrGos);
+                //Console.WriteLine(sqlAdrGos);
+                //scrieSqlFile(sqlAdrGos);
                 //result = BazaDeDate.ExecutaNonQuery(sqlAdrGos);
-                sqlAdrGos = string.Empty;
+                //sqlAdrGos = string.Empty;
 
                 
 
                 if (isPf)
                 {
-                    Console.WriteLine(sqlAdrPf);
-                    scrieSqlFile(sqlAdrPf);
+                    //Console.WriteLine(sqlAdrPf);
+                    //scrieSqlFile(sqlAdrPf);
                     //result = BazaDeDate.ExecutaNonQuery(sqlAdrPf);
-                    sqlAdrPf = string.Empty;
+                    //sqlAdrPf = string.Empty;
                 }
                 else
                 {
-                    Console.WriteLine(sqlAdrPj);
-                    scrieSqlFile(sqlAdrPj);
+                    //Console.WriteLine(sqlAdrPj);
+                    //scrieSqlFile(sqlAdrPj);
                     //result = BazaDeDate.ExecutaNonQuery(sqlAdrPj);
-                    sqlAdrPf = string.Empty;
+                    //sqlAdrPf = string.Empty;
                 }
 
                 sqlPer += "INSERT INTO `persoane` (";
@@ -492,10 +493,10 @@ public static class BazaDeDate
                 sqlPer += "	, " + dr.GetInt32(dr.GetOrdinal("tip")) + "";
                 sqlPer += "	, '" + idPersoana + "'";
                 sqlPer += ");";
-                Console.WriteLine(sqlPer);
-                scrieSqlFile(sqlPer);
+                //Console.WriteLine(sqlPer);
+                //scrieSqlFile(sqlPer);
                 //result = BazaDeDate.ExecutaNonQuery(sqlPer);
-                sqlPer = string.Empty;
+                //sqlPer = string.Empty;
 
                 if (isPf)
                 {
@@ -526,10 +527,10 @@ public static class BazaDeDate
                     sqlPf += ", '" + idAdresaPf + "'";
                     sqlPf += ");";
 
-                    Console.WriteLine(sqlPf);
-                    scrieSqlFile(sqlPf);
+                    //Console.WriteLine(sqlPf);
+                    //scrieSqlFile(sqlPf);
                     //result = BazaDeDate.ExecutaNonQuery(sqlPf);
-                    sqlPf = string.Empty;
+                    //sqlPf = string.Empty;
                 }
                 else
                 {
@@ -671,13 +672,60 @@ public static class BazaDeDate
                     sqlPj += ", '" + idAdresaPj + "'";
                     sqlPj += ");";
 
-                    Console.WriteLine(sqlPj);
-                    scrieSqlFile(sqlPj);
+                    //Console.WriteLine(sqlPj);
+                    //scrieSqlFile(sqlPj);
                     //result = BazaDeDate.ExecutaNonQuery(sqlPj);
-                    sqlPj = string.Empty;
+                    //sqlPj = string.Empty;
                 }
+                if (isPf)
+                {
+                    Debug.WriteLine(sqlAdrPf);
+                        scrieSqlFile(sqlAdrPf);
+                        result = BazaDeDate.ExecutaNonQuery(sqlAdrPf);
+                        sqlAdrPf = string.Empty;
+                }else
+                {
+                    Debug.WriteLine(sqlAdrPj);
+                        scrieSqlFile(sqlAdrPj);
+                        result = BazaDeDate.ExecutaNonQuery(sqlAdrPj);
+                        sqlAdrPj = string.Empty;
+                }
+                
+                Debug.WriteLine(sqlAdrGos);
+                    scrieSqlFile(sqlAdrGos);
+                    result = BazaDeDate.ExecutaNonQuery(sqlAdrGos);
+                    sqlAdrGos = string.Empty;
+                    
+                Debug.WriteLine(sqlPer);
+                    scrieSqlFile(sqlPer);
+                    result = BazaDeDate.ExecutaNonQuery(sqlPer);
+                    sqlPer = string.Empty;
+                if (isPf)
+                {
+                    Debug.WriteLine(sqlPf);
+                        scrieSqlFile(sqlPf);
+                        result = BazaDeDate.ExecutaNonQuery(sqlPf);
+                        sqlPf = string.Empty;
+                }
+                else
+                {
+                    Debug.WriteLine(sqlPj);
+                        scrieSqlFile(sqlPj);
+                        result = BazaDeDate.ExecutaNonQuery(sqlPj);
+                        sqlPj = string.Empty;
+                }
+                
+                
+                Debug.WriteLine(sqlRol);
+                    scrieSqlFile(sqlRol);
+                    result = BazaDeDate.ExecutaNonQuery(sqlRol);
+                    sqlRol = string.Empty;
             }
             Console.WriteLine("am terminat");
         });
+    }
+    internal static void stringAdrese()
+    {
+        //Console.WriteLine( dr.GetString(dr.GetOrdinal("idrol")) );
     }
 }

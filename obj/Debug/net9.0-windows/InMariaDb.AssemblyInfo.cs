@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("InMariaDb")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9eb05b23bf3ae14e8d1a5bbe0ffb4fcf7cba41b5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ad1cc9ae14629146e099650e5d50c864709799d4")]
 [assembly: System.Reflection.AssemblyProductAttribute("InMariaDb")]
 [assembly: System.Reflection.AssemblyTitleAttribute("InMariaDb")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
